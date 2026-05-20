@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">SecureLink Architecture</title>
+  <desc id="desc">SecureLink architecture showing clients, FastAPI, cryptography services, database, dashboard, and monitoring.</desc>
+  <rect width="1200" height="680" fill="#f7f9fb"/>
+  <text x="60" y="70" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#17202a">SecureLink Architecture</text>
+  <text x="60" y="105" font-family="Arial, sans-serif" font-size="16" fill="#53616f">Encrypted messaging, attack detection, audit logging, and monitoring</text>
+
+  <g font-family="Arial, sans-serif" font-size="16" fill="#17202a">
+    <rect x="60" y="170" width="220" height="95" rx="8" fill="#ffffff" stroke="#2f6fed" stroke-width="2"/>
+    <text x="90" y="210" font-weight="700">Users</text>
+    <text x="90" y="237" fill="#53616f">Alice, Bob, demos</text>
+
+    <rect x="60" y="330" width="220" height="95" rx="8" fill="#ffffff" stroke="#d64545" stroke-width="2"/>
+    <text x="90" y="370" font-weight="700">Attack Simulator</text>
+    <text x="90" y="397" fill="#53616f">Replay, tamper, MITM</text>
+
+    <rect x="405" y="145" width="300" height="330" rx="8" fill="#ffffff" stroke="#17202a" stroke-width="2"/>
+    <text x="450" y="185" font-size="22" font-weight="700">FastAPI Backend</text>
+    <rect x="440" y="220" width="230" height="48" rx="6" fill="#eaf1ff" stroke="#2f6fed"/>
+    <text x="468" y="251">Auth + JWT + bcrypt</text>
+    <rect x="440" y="285" width="230" height="48" rx="6" fill="#eaf8f1" stroke="#1f8f5f"/>
+    <text x="468" y="316">Messages API</text>
+    <rect x="440" y="350" width="230" height="48" rx="6" fill="#fff6e6" stroke="#d99000"/>
+    <text x="468" y="381">Crypto Services</text>
+    <rect x="440" y="415" width="230" height="48" rx="6" fill="#fdecec" stroke="#d64545"/>
+    <text x="468" y="446">Detection + Audit</text>
+
+    <rect x="820" y="150" width="260" height="95" rx="8" fill="#ffffff" stroke="#1f8f5f" stroke-width="2"/>
+    <text x="850" y="190" font-weight="700">PostgreSQL</text>
+    <text x="850" y="217" fill="#53616f">Users, messages, events</text>
+
+    <rect x="820" y="300" width="260" height="95" rx="8" fill="#ffffff" stroke="#8d5cf6" stroke-width="2"/>
+    <text x="850" y="340" font-weight="700">Streamlit Dashboard</text>
+    <text x="850" y="367" fill="#53616f">Security event view</text>
+
+    <rect x="820" y="450" width="260" height="95" rx="8" fill="#ffffff" stroke="#53616f" stroke-width="2"/>
+    <text x="850" y="490" font-weight="700">Prometheus + Grafana</text>
+    <text x="850" y="517" fill="#53616f">Metrics and monitoring</text>
+  </g>
+
+  <g stroke="#53616f" stroke-width="3" fill="none" marker-end="url(#arrow)">
+    <path d="M280 217 L405 245"/>
+    <path d="M280 377 L405 385"/>
+    <path d="M705 245 L820 197"/>
+    <path d="M705 365 L820 347"/>
+    <path d="M705 430 L820 497"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#53616f"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">SecureLink Attack Flow</title>
+  <desc id="desc">Attack simulations and the corresponding SecureLink defenses.</desc>
+  <rect width="1200" height="620" fill="#fbfcfd"/>
+  <text x="60" y="70" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#17202a">Attack Flow and Defenses</text>
+
+  <g font-family="Arial, sans-serif" font-size="16">
+    <rect x="70" y="145" width="230" height="80" rx="8" fill="#fdecec" stroke="#d64545" stroke-width="2"/>
+    <text x="100" y="178" font-weight="700" fill="#17202a">Tampering</text>
+    <text x="100" y="204" fill="#53616f">Ciphertext changed</text>
+
+    <rect x="70" y="270" width="230" height="80" rx="8" fill="#fdecec" stroke="#d64545" stroke-width="2"/>
+    <text x="100" y="303" font-weight="700" fill="#17202a">Replay</text>
+    <text x="100" y="329" fill="#53616f">Nonce or ID reused</text>
+
+    <rect x="70" y="395" width="230" height="80" rx="8" fill="#fdecec" stroke="#d64545" stroke-width="2"/>
+    <text x="100" y="428" font-weight="700" fill="#17202a">Impersonation</text>
+    <text x="100" y="454" fill="#53616f">Invalid signature</text>
+
+    <rect x="465" y="145" width="260" height="330" rx="8" fill="#ffffff" stroke="#17202a" stroke-width="2"/>
+    <text x="508" y="190" font-size="22" font-weight="700" fill="#17202a">Verification Gate</text>
+    <text x="510" y="245" fill="#17202a">1. Validate timestamp</text>
+    <text x="510" y="290" fill="#17202a">2. Reject duplicate nonce</text>
+    <text x="510" y="335" fill="#17202a">3. Verify HMAC</text>
+    <text x="510" y="380" fill="#17202a">4. Verify RSA signature</text>
+    <text x="510" y="425" fill="#17202a">5. Decrypt AES-GCM</text>
+
+    <rect x="890" y="210" width="230" height="80" rx="8" fill="#eaf8f1" stroke="#1f8f5f" stroke-width="2"/>
+    <text x="920" y="243" font-weight="700" fill="#17202a">Accepted</text>
+    <text x="920" y="269" fill="#53616f">Plaintext returned</text>
+
+    <rect x="890" y="350" width="230" height="80" rx="8" fill="#fff6e6" stroke="#d99000" stroke-width="2"/>
+    <text x="920" y="383" font-weight="700" fill="#17202a">Blocked + Logged</text>
+    <text x="920" y="409" fill="#53616f">Security event stored</text>
+  </g>
+
+  <g stroke="#53616f" stroke-width="3" fill="none" marker-end="url(#arrow)">
+    <path d="M300 185 L465 235"/>
+    <path d="M300 310 L465 310"/>
+    <path d="M300 435 L465 385"/>
+    <path d="M725 270 L890 250"/>
+    <path d="M725 380 L890 390"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L9,3 z" fill="#53616f"/>
+    </marker>
+  </defs>
+</svg>
