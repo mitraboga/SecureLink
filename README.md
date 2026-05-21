@@ -715,29 +715,6 @@ python scripts/generate_presentation_assets.py
 
 ---
 
-# 💼 Resume Bullet
-
-Engineered **SecureLink**, a secure messaging and attack-detection platform implementing bcrypt authentication, JWT access control, AES-256-GCM encryption, HMAC-SHA256 integrity validation, RSA-PSS digital signatures, Diffie-Hellman key exchange, replay/tamper/invalid-signature attack simulation, Dockerized TLS infrastructure, Redis rate limiting, PostgreSQL persistence, Prometheus metrics, Grafana monitoring, and a Streamlit security dashboard.
-
----
-
-# 🎯 Interview Talking Points
-
-## What SecureLink Demonstrates
-
-- I can build secure APIs.
-- I understand layered defense.
-- I can apply cryptographic primitives correctly at a systems level.
-- I can simulate attacks and validate defenses.
-- I can connect security engineering to observability.
-- I understand the difference between educational cryptography demos and production-grade security guarantees.
-
-## Best One-Liner
-
-> SecureLink shows how authentication, encryption, integrity validation, signatures, replay protection, monitoring, and attack simulation work together to protect application messages.
-
----
-
 # 👤 Author
 
 <p align="center">
