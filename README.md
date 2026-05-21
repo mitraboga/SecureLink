@@ -310,25 +310,6 @@ Each simulation produces a security event that can be reviewed through the API, 
 
 ---
 
-# 📊 Dashboard Preview
-
-<p align="center">
-  <img src="assets/dashboard-preview.png" width="100%">
-</p>
-
-The Streamlit dashboard visualizes:
-
-- total security events
-- attack simulation results
-- event summaries
-- suspicious activity
-- API security telemetry
-- detection outcomes
-
-This gives the project a real security operations feel, similar to a lightweight SOC dashboard.
-
----
-
 # 🔐 Security Features
 
 ## Authentication
@@ -423,45 +404,6 @@ GET /metrics
 
 ---
 
-# 🧪 Demo Walkthrough
-
-## Goal
-
-Demonstrate a complete secure messaging lifecycle and show how attacks are detected.
-
-## Steps
-
-1. Register Alice and Bob.
-2. Log in as Alice.
-3. Generate or retrieve cryptographic keys.
-4. Send Bob a secure encrypted message.
-5. Log in as Bob.
-6. Fetch Bob's inbox.
-7. Verify plaintext is returned only after integrity, signature, and replay checks pass.
-8. Run replay, tamper, invalid-signature, and MITM simulations.
-9. Open the Streamlit dashboard.
-10. Review logged security events.
-11. Inspect Prometheus and Grafana metrics.
-
-## Full Demo Shortcut
-
-```bash
-python attack_simulator/full_demo.py --api http://localhost:8010
-```
-
----
-
-# 🧾 Example Message Body
-
-```json
-{
-  "receiver_id": 2,
-  "plaintext": "Hello Bob, this is a secure encrypted message."
-}
-```
-
----
-
 # ⚙️ Local Setup
 
 Use Python 3.12.
@@ -527,7 +469,216 @@ TLS uses Caddy's internal local certificate authority in Docker.
 
 ---
 
-# 🧭 Manual Swagger Demo
+# 🧭 Interfaces: Swagger UI vs Streamlit Dashboard
+
+SecureLink uses two different browser-based interfaces for two different jobs.
+
+Both connect to the same FastAPI backend, but they serve different purposes.
+
+```text
+Browser
+  |
+  |-- Swagger UI: http://localhost:8010/docs
+  |       API testing console
+  |       Used to register users, log in, send messages, and trigger attacks
+  |
+  |-- Streamlit Dashboard: http://localhost:8501
+          Security monitoring dashboard
+          Used to visualize failed logins, replay attempts, HMAC failures,
+          invalid signatures, severity counts, and recent security events
+```
+
+## FastAPI / Swagger UI
+
+Swagger UI is automatically served by the FastAPI backend.
+
+Open:
+
+```text
+http://localhost:8010/docs
+```
+
+Use Swagger UI for **active API testing**.
+
+### Common Swagger Demo Actions
+
+```text
+POST /auth/register
+POST /auth/login
+GET  /auth/me
+
+POST /messages/send
+GET  /messages/inbox
+GET  /messages/{message_id}
+
+POST /security/simulate/replay
+POST /security/simulate/tamper
+POST /security/simulate/invalid-signature
+POST /security/simulate/mitm
+
+GET  /security/events
+GET  /security/summary
+```
+
+Swagger acts as the project’s API console.
+
+It is the best place to manually:
+
+1. Register Alice and Bob.
+2. Log in as Alice.
+3. Authorize requests with Alice’s JWT token.
+4. Send Bob a secure encrypted message.
+5. Log in as Bob.
+6. Read Bob’s inbox.
+7. Trigger replay, tamper, invalid-signature, and MITM simulations.
+
+## Streamlit Security Dashboard
+
+Streamlit is a separate dashboard service.
+
+Open:
+
+```text
+http://localhost:8501
+```
+
+The dashboard is used for **security monitoring**, not as the primary messaging frontend.
+
+Inside Docker, Streamlit calls the FastAPI backend using Docker’s internal service name:
+
+```text
+http://api:8000
+```
+
+Do not enter that internal Docker URL in your browser. From your browser, use:
+
+```text
+http://localhost:8501
+```
+
+### Dashboard Login Flow
+
+1. You enter a username and password in Streamlit.
+2. Streamlit sends a login request to FastAPI:
+
+```text
+POST /auth/login
+```
+
+3. FastAPI returns a JWT token.
+4. Streamlit stores the token in session state.
+5. Streamlit calls:
+
+```text
+GET /security/summary
+GET /security/events
+```
+
+6. The dashboard displays security telemetry.
+
+### Dashboard Shows
+
+- total security events
+- severity counts
+- replay attempts
+- tamper attempts
+- invalid signature events
+- failed login events
+- recent security event table
+- IDS-style monitoring output
+
+## How They Work Together In The Demo
+
+Use both interfaces together for the most polished SecureLink demonstration.
+
+### 1. Swagger UI: Perform Security Actions
+
+Use Swagger to:
+
+- register Alice and Bob
+- log in users
+- send encrypted messages
+- read inbox messages
+- trigger attack simulations
+
+### 2. Streamlit: Visualize The Results
+
+Use Streamlit to show:
+
+- attacks logged
+- failed login events
+- replay attempts
+- high-severity counts
+- security event summaries
+- recent alerts
+
+### 3. Prometheus And Grafana: Show Production Monitoring
+
+Open:
+
+```text
+http://localhost:9090
+http://localhost:3010
+```
+
+Use these to demonstrate:
+
+- metrics exposure
+- production-style observability
+- service health
+- monitoring stack readiness
+
+## Current UI Scope
+
+In the current version, Streamlit is a **security monitoring dashboard**.
+
+Message sending is handled through:
+
+- Swagger UI
+- attack simulator scripts
+- API endpoints
+
+Streamlit is not yet a full chat interface.
+
+A future enhancement would be adding a dedicated Streamlit **Messaging Demo** tab that supports:
+
+- log in as Alice
+- choose Bob
+- send secure message
+- log in as Bob
+- view inbox
+- trigger attack scenarios
+- watch the dashboard update in real time
+
+This separation is intentional and realistic for a backend/security engineering project.
+
+| Interface | Purpose |
+|---|---|
+| Swagger UI | API testing and manual security workflow execution |
+| Streamlit Dashboard | Security monitoring and event visualization |
+| Prometheus | Metrics collection |
+| Grafana | Production observability dashboards |
+
+---
+
+# 🧪 Demo Walkthrough
+
+This demo uses Swagger UI for API actions and Streamlit for monitoring.
+
+## Step 1: Start The Stack
+
+```bash
+docker compose up --build
+```
+
+Verify:
+
+```text
+API ready: http://localhost:8010/ready
+Dashboard: http://localhost:8501
+```
+
+## Step 2: Use Swagger For API Actions
 
 Open:
 
@@ -540,24 +691,79 @@ Then:
 1. Register Alice with `POST /auth/register`.
 2. Register Bob with `POST /auth/register`.
 3. Login Alice with `POST /auth/login`.
-4. Click `Authorize`.
-5. Paste:
+4. Click **Authorize** and paste:
 
 ```text
 Bearer <alice_token>
 ```
 
-6. Send Bob a message with `POST /messages/send`.
-7. Login Bob.
-8. Authorize Swagger with Bob's token.
-9. Read Bob's inbox with `GET /messages/inbox`.
-10. Trigger replay, tamper, invalid-signature, and MITM simulations.
-11. Review:
-    - `/security/events`
-    - `/security/summary`
-    - Streamlit dashboard
-    - Prometheus
-    - Grafana
+5. Send Bob a message with `POST /messages/send`.
+6. Login Bob and authorize Swagger with Bob’s token.
+7. Read Bob’s inbox with `GET /messages/inbox`.
+8. Trigger replay, tamper, invalid-signature, and MITM simulations.
+
+## Step 3: Use Streamlit For Security Monitoring
+
+Open:
+
+```text
+http://localhost:8501
+```
+
+Log in with any user registered through Swagger, such as Alice or Bob.
+
+Use the dashboard to inspect:
+
+- security event counts
+- severity breakdowns
+- replay attempts
+- HMAC/tamper failures
+- invalid signatures
+- recent event logs
+
+## Step 4: Use Prometheus And Grafana For Observability
+
+Open:
+
+```text
+http://localhost:9090
+http://localhost:3010
+```
+
+Grafana credentials:
+
+```text
+admin / securelink
+```
+
+This demonstrates the full SecureLink workflow:
+
+```text
+Swagger UI executes actions
+        ↓
+FastAPI validates, encrypts, signs, detects, and logs events
+        ↓
+Streamlit visualizes security events
+        ↓
+Prometheus and Grafana expose production-style monitoring
+```
+
+## Full Demo Shortcut
+
+```bash
+python attack_simulator/full_demo.py --api http://localhost:8010
+```
+
+---
+
+# 🧾 Example Message Body
+
+```json
+{
+  "receiver_id": 2,
+  "plaintext": "Hello Bob, this is a secure encrypted message."
+}
+```
 
 ---
 
