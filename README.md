@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🔐 SecureLink
+# 🔐 SecureLink 🪪
 
 ### Secure Messaging, Applied Cryptography, Attack Simulation & Security Monitoring Platform
 
