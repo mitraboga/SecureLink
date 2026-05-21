@@ -469,7 +469,7 @@ TLS uses Caddy's internal local certificate authority in Docker.
 
 ---
 
-# 🧭 Interfaces: Swagger UI, Streamlit, Prometheus & Grafana
+# 🧭 Interface: Swagger UI, Streamlit, Prometheus & Grafana
 
 SecureLink exposes four browser-accessible interfaces, each serving a different role in the security workflow.
 
