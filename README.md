@@ -469,11 +469,11 @@ TLS uses Caddy's internal local certificate authority in Docker.
 
 ---
 
-# 🧭 Interfaces: Swagger UI vs Streamlit Dashboard
+# 🧭 Interfaces: Swagger UI, Streamlit, Prometheus & Grafana
 
-SecureLink uses two different browser-based interfaces for two different jobs.
+SecureLink exposes four browser-accessible interfaces, each serving a different role in the security workflow.
 
-Both connect to the same FastAPI backend, but they serve different purposes.
+All of them connect back to the same secure messaging system, but they are designed for different audiences and demo moments.
 
 ```text
 Browser
@@ -483,10 +483,20 @@ Browser
   |       Used to register users, log in, send messages, and trigger attacks
   |
   |-- Streamlit Dashboard: http://localhost:8501
-          Security monitoring dashboard
-          Used to visualize failed logins, replay attempts, HMAC failures,
-          invalid signatures, severity counts, and recent security events
+  |       Security monitoring dashboard
+  |       Used to visualize failed logins, replay attempts, HMAC failures,
+  |       invalid signatures, severity counts, and recent security events
+  |
+  |-- Prometheus: http://localhost:9090
+  |       Metrics collection and query layer
+  |       Used to inspect API metrics, health signals, and exported telemetry
+  |
+  |-- Grafana: http://localhost:3010
+          Production observability dashboard
+          Used to visualize metrics from Prometheus in a monitoring UI
 ```
+
+---
 
 ## FastAPI / Swagger UI
 
@@ -531,6 +541,8 @@ It is the best place to manually:
 5. Log in as Bob.
 6. Read Bob’s inbox.
 7. Trigger replay, tamper, invalid-signature, and MITM simulations.
+
+---
 
 ## Streamlit Security Dashboard
 
@@ -587,9 +599,81 @@ GET /security/events
 - recent security event table
 - IDS-style monitoring output
 
+---
+
+## Prometheus Metrics
+
+Prometheus is the metrics collection and query layer.
+
+Open:
+
+```text
+http://localhost:9090
+```
+
+SecureLink exposes metrics through the FastAPI endpoint:
+
+```text
+GET /metrics
+```
+
+Prometheus scrapes these exported metrics and makes them queryable.
+
+### Prometheus Is Used To Inspect
+
+- API request metrics
+- service health signals
+- exported telemetry
+- runtime monitoring data
+- security-related counters where available
+
+### Example Monitoring Questions
+
+- Is the API responding?
+- Are requests increasing?
+- Are security simulation events increasing?
+- Are error rates changing?
+- Is the service ready and healthy?
+
+Prometheus is the raw metrics layer.
+
+Grafana turns those metrics into visual dashboards.
+
+---
+
+## Grafana Observability Dashboard
+
+Grafana is the production-style observability interface.
+
+Open:
+
+```text
+http://localhost:3010
+```
+
+Default credentials:
+
+```text
+admin / securelink
+```
+
+Grafana reads metrics from Prometheus and provides a dashboard-style view of system behavior.
+
+### Grafana Is Used To Show
+
+- service health
+- API activity
+- metrics trends
+- observability readiness
+- production monitoring workflow
+
+This gives SecureLink a more realistic deployment profile because security systems need both application-level event logs and infrastructure-level monitoring.
+
+---
+
 ## How They Work Together In The Demo
 
-Use both interfaces together for the most polished SecureLink demonstration.
+Use all four interfaces together for the most polished SecureLink demonstration.
 
 ### 1. Swagger UI: Perform Security Actions
 
@@ -601,7 +685,7 @@ Use Swagger to:
 - read inbox messages
 - trigger attack simulations
 
-### 2. Streamlit: Visualize The Results
+### 2. Streamlit: Visualize Security Events
 
 Use Streamlit to show:
 
@@ -612,21 +696,24 @@ Use Streamlit to show:
 - security event summaries
 - recent alerts
 
-### 3. Prometheus And Grafana: Show Production Monitoring
+### 3. Prometheus: Inspect Raw Metrics
 
-Open:
-
-```text
-http://localhost:9090
-http://localhost:3010
-```
-
-Use these to demonstrate:
+Use Prometheus to show:
 
 - metrics exposure
-- production-style observability
-- service health
-- monitoring stack readiness
+- `/metrics` integration
+- service telemetry
+- queryable runtime signals
+
+### 4. Grafana: Present Observability
+
+Use Grafana to show:
+
+- production-style dashboarding
+- visual monitoring
+- service health and metrics trends
+
+---
 
 ## Current UI Scope
 
@@ -656,7 +743,7 @@ This separation is intentional and realistic for a backend/security engineering 
 |---|---|
 | Swagger UI | API testing and manual security workflow execution |
 | Streamlit Dashboard | Security monitoring and event visualization |
-| Prometheus | Metrics collection |
+| Prometheus | Metrics collection and query layer |
 | Grafana | Production observability dashboards |
 
 ---
