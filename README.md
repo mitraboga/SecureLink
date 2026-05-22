@@ -1106,52 +1106,6 @@ This section is important because strong security engineering includes knowing w
 
 ---
 
-# 🛣️ Future Improvements
-
-Planned improvements include:
-
-- Hardware-backed key storage
-- Full client-held end-to-end key exchange
-- Key rotation and revocation workflows
-- Managed Redis or Redis clustering for multi-instance rate limiting
-- Cloud deployment manifests
-- Stronger secrets management
-- MFA support
-- WebAuthn / passkey authentication
-- Role-based access control
-- Per-user device/session management
-- SIEM export support
-- More advanced anomaly detection
-
----
-
-# 🖼️ Presentation Assets
-
-Architecture and demo assets:
-
-```text
-assets/architecture.svg
-assets/attack-flow.svg
-assets/dashboard-preview.svg
-assets/architecture.png
-assets/attack-flow.png
-assets/dashboard-preview.png
-```
-
-Generated presentation file:
-
-```text
-docs/SecureLink_presentation.pptx
-```
-
-Regenerate PNG assets and the slide deck:
-
-```bash
-python scripts/generate_presentation_assets.py
-```
-
----
-
 # 👤 Author
 
 <p align="center">
