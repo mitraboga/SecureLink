@@ -42,7 +42,7 @@ It demonstrates how cybersecurity concepts move from theory into a working appli
 
 Modern applications exchange sensitive messages across networks, APIs, browsers, services, databases, and third-party infrastructure.
 
-Without layered defenses, those messages can be:
+Without layered defences, those messages can be:
 
 - intercepted
 - modified
@@ -89,15 +89,11 @@ SecureLink focuses on the defensive side of that lesson by implementing a layere
 
 This project directly connects to the major themes from **CS50 Cybersecurity**.
 
-## Final Project Video
-
 <p align="center">
   <a href="https://youtu.be/xoNXw7LtP6w">
     <img src="assets/CS50_Cybersecurity_Final_Project_Slideshow/CS50Cybersecurity.png" width="100%">
   </a>
 </p>
-
-Copyable video link:
 
 ```text
 https://youtu.be/xoNXw7LtP6w
@@ -483,7 +479,7 @@ TLS uses Caddy's internal local certificate authority in Docker.
 
 ---
 
-# 🧭 Interfaces: Swagger UI, Streamlit, Prometheus & Grafana
+# 🧭 Interface Connectivity
 
 SecureLink exposes four browser-accessible interfaces, each serving a different role in the security workflow.
 
