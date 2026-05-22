@@ -89,6 +89,20 @@ SecureLink focuses on the defensive side of that lesson by implementing a layere
 
 This project directly connects to the major themes from **CS50 Cybersecurity**.
 
+## Final Project Video
+
+<p align="center">
+  <a href="https://youtu.be/xoNXw7LtP6w">
+    <img src="assets/CS50_Cybersecurity_Final_Project_Slideshow/CS50Cybersecurity.png" width="100%">
+  </a>
+</p>
+
+Copyable video link:
+
+```text
+https://youtu.be/xoNXw7LtP6w
+```
+
 ## 0. Securing Accounts
 
 SecureLink implements authentication controls designed to reduce account compromise risk.
@@ -668,6 +682,140 @@ Grafana reads metrics from Prometheus and provides a dashboard-style view of sys
 - production monitoring workflow
 
 This gives SecureLink a more realistic deployment profile because security systems need both application-level event logs and infrastructure-level monitoring.
+
+---
+
+## Monitoring Test Process
+
+After starting the Docker stack:
+
+```bash
+docker compose up --build
+```
+
+the monitoring services can be tested locally through Prometheus, Grafana, Swagger UI, and the Streamlit dashboard.
+
+Expected local status:
+
+```text
+Prometheus: ready
+Grafana: ok
+FastAPI /metrics: SecureLink metrics are present
+```
+
+### Test Prometheus
+
+Open:
+
+```text
+http://localhost:9090
+```
+
+Then go to:
+
+```text
+Status -> Targets
+```
+
+The `securelink-api` target should show:
+
+```text
+UP
+```
+
+Return to the Prometheus query page and test:
+
+```promql
+securelink_http_requests_total
+```
+
+```promql
+sum by (path) (securelink_http_requests_total)
+```
+
+```promql
+sum by (path) (rate(securelink_http_requests_total[5m]))
+```
+
+```promql
+histogram_quantile(0.95, sum by (le, path) (rate(securelink_http_request_duration_seconds_bucket[5m])))
+```
+
+Generate more traffic by refreshing Swagger UI, logging in through Streamlit, triggering attack simulations, or running:
+
+```powershell
+curl.exe http://localhost:8010/health
+curl.exe http://localhost:8010/ready
+curl.exe http://localhost:8010/metrics
+```
+
+### Test Grafana
+
+Open:
+
+```text
+http://localhost:3010
+```
+
+Login:
+
+```text
+Username: admin
+Password: securelink
+```
+
+A Grafana Cloud account is not required. This project runs a local Grafana container through Docker Compose.
+
+Check the Prometheus data source:
+
+```text
+Connections -> Data sources -> Prometheus
+```
+
+It should already point to:
+
+```text
+http://prometheus:9090
+```
+
+Click **Save & test**. Grafana should report that the data source is working.
+
+To create a visualization, go to:
+
+```text
+Dashboards -> New -> New visualization
+```
+
+Choose Prometheus and try:
+
+```promql
+sum by (path) (rate(securelink_http_requests_total[5m]))
+```
+
+```promql
+sum(securelink_http_requests_total)
+```
+
+```promql
+sum by (status_code) (rate(securelink_http_requests_total[5m]))
+```
+
+### Local Hosting Note
+
+Swagger UI and Streamlit run locally after Docker starts the stack:
+
+```text
+Swagger UI: http://localhost:8010/docs
+Streamlit:  http://localhost:8501
+```
+
+Inside Docker, Streamlit reaches FastAPI through:
+
+```text
+http://api:8000
+```
+
+From a browser on the host machine, use the localhost URLs. A public Streamlit Community Cloud dashboard cannot access a laptop's `localhost`; a public dashboard would require a publicly hosted FastAPI backend.
 
 ---
 
