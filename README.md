@@ -1121,7 +1121,3 @@ This section is important because strong security engineering includes knowing w
 </p>
 
 ---
-
-# 📜 License
-
-This project is licensed under the MIT License.
