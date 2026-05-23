@@ -1119,5 +1119,3 @@ This section is important because strong security engineering includes knowing w
     <img src="https://img.shields.io/badge/X-@techtraboga-000000?style=for-the-badge&logo=x">
   </a>
 </p>
-
----
